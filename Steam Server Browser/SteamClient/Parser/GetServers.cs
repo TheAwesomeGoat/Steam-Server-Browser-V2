@@ -24,7 +24,7 @@ namespace Steam_Server_Browser.SteamClient.Parser
             int Batch = 1;
             while (true)
             {
-                byte[] Message = client.GetServers(endPoint, 5000, filter);
+                byte[] Message = client.GetServers(endPoint, 5000, filter).data;
                 var Endpoints = ipParser.Parse(Message);
 
                 foreach (var item in Endpoints)

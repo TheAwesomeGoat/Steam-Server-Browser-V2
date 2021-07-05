@@ -25,9 +25,23 @@ namespace Steam_Server_Browser
             IpFilter filter = new IpFilter()
             {
                 AppId = "4000",
-                Region = PacketBuilder.EnumRegions.All
+                Region = PacketBuilder.EnumRegions.All,
+                HostName = "*Genesis*"
             };
-            new GetServers().GetSteamServers(1, filter);
+            var ServerEndpoints = new GetServers().GetSteamServers(1, filter);
+            List<ServerInfoClass> servers = new List<ServerInfoClass>();
+
+            foreach (var item in ServerEndpoints)
+            {
+                try
+                {
+                    servers.Add(new ServerInfo().GetServerName(item));
+                }
+                catch
+                {
+
+                }
+            }
         }
     }
 }

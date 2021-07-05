@@ -19,19 +19,31 @@ namespace Steam_Server_Browser.SteamClient.Parser
             List<Commands> commands = new List<Commands>();
             SteamClient.Client client = new SteamClient.Client();
 
-            byte[] recivedmsg = client.GetServerRules(endPoint, 5000);
+            var Message = client.GetServerRules(endPoint, 5000);
+            if (Message.ShouldReturn)
+            {
+                byte[] recivedmsg = Message.data;
+                var parser = new ResponseParser(recivedmsg);
 
-            var parser = new ResponseParser(recivedmsg);
-
-            while (parser.CurrentPosition != recivedmsg.Length)
+                while (parser.CurrentPosition != recivedmsg.Length)
+                {
+                    commands.Add(new Commands
+                    {
+                        command = parser.GetStringToTermination(),
+                        value = parser.GetStringToTermination()
+                    });
+                }
+                return commands;
+            }
+            else
             {
                 commands.Add(new Commands
                 {
-                    command = parser.GetStringToTermination(),
-                    value = parser.GetStringToTermination()
+                    command = "n/a",
+                    value = "n/a"
                 });
+                return commands;
             }
-            return commands;
         }
     }
 }

@@ -24,31 +24,46 @@ namespace Steam_Server_Browser.SteamClient.Parser
             SteamClient.Client client = new SteamClient.Client();
             try
             {
-                byte[] recivedmsg = client.GetPlayers(endPoint, 5000);
-
-                var parser = new ResponseParser(recivedmsg);
-                parser.CurrentPosition += 5;
-                byte playersCount = parser.GetByte();
-                try
+                var Message = client.GetPlayers(endPoint, 5000);
+                if (Message.ShouldReturn)
                 {
-                    for (int i = 0; i < recivedmsg.Count(); i += 4)
+                    byte[] recivedmsg = Message.data;
+                    var parser = new ResponseParser(recivedmsg);
+                    parser.CurrentPosition += 5;
+                    byte playersCount = parser.GetByte();
+                    try
                     {
-                        players.Add(new PlayerInfo
+                        for (int i = 0; i < recivedmsg.Count(); i += 4)
                         {
-                            Index = parser.GetByte(),
-                            Name = parser.GetStringToTermination(),
-                            Score = (int)parser.GetLong(),
-                            Duration = parser.GetFloat(),
-                            valid = true
-                        });
+                            players.Add(new PlayerInfo
+                            {
+                                Index = parser.GetByte(),
+                                Name = parser.GetStringToTermination(),
+                                Score = (int)parser.GetLong(),
+                                Duration = parser.GetFloat(),
+                                valid = true
+                            });
+                        }
                     }
-                }
-                catch (Exception e) { var a = e; }
+                    catch (Exception e) { var a = e; }
 
-                if (players.Count != 0)
-                    return players;
+                    if (players.Count != 0)
+                        return players;
+                    else
+                        return null;
+                }
                 else
-                    return null;
+                {
+                    players.Add(new PlayerInfo
+                    {
+                        Index = 0,
+                        Name = "n/a",
+                        Score = 0,
+                        Duration = 0,
+                        valid = true
+                    });
+                    return players;
+                }
             }
             catch (Exception)
             {
