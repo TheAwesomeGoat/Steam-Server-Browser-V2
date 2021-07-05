@@ -38,7 +38,7 @@ namespace Steam_Server_Browser.SteamClient.Parser
             if (Message.ShouldReturn)
             {
                 var parser = new ResponseParser(Message.data);
-
+                parser.CurrentPosition += 5;
                 return new ServerInfoClass()
                 {
                     Protocol = parser.GetByte(),
