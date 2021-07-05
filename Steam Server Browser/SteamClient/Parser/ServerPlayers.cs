@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using System.Net;
+
 namespace Steam_Server_Browser.SteamClient.Parser
 {
     public class ServerPlayers
