@@ -115,7 +115,7 @@ namespace Steam_Server_Browser
         private void StopSearch_Click(object sender, EventArgs e)
         {
             if (SearchServersThread != null)
-                if (!SearchServersThread.IsAlive)
+                if (SearchServersThread.IsAlive)
                     SearchServersThread.Abort();
             new SteamClient.Client().CloseAndDispose();
         }
