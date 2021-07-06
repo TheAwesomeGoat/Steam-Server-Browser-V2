@@ -1,6 +1,4 @@
-﻿using Steam_Server_Browser.Interaction;
-
-namespace Steam_Server_Browser
+﻿namespace Steam_Server_Browser
 {
     partial class Form1
     {
