@@ -93,6 +93,24 @@ namespace Steam_Server_Browser
             }
         }
 
+        private void GetRulesButton_Click(object sender, EventArgs e)
+        {
+            string IP = RuleIP.Text.Split(':')[0];
+            string Port = RuleIP.Text.Split(':')[1];
+            new Thread(() =>
+            {
+                List<ServerRules.Commands> Rules = new ServerRules().GetServerRules(new IPEndPoint(IPAddress.Parse(IP), int.Parse(Port)));
+                foreach (var Rule in Rules)
+                {
+                    invokers.AddDataItem(new string[]
+                    {
+                        Rule.command,
+                        Rule.value
+                    }, DataGridRules);
+                }
+
+            }).Start();
+        }
         private void StopSearch_Click(object sender, EventArgs e)
         {
             if (SearchServersThread != null)
@@ -107,22 +125,26 @@ namespace Steam_Server_Browser
         // 3, Bots
         // 4, Server IP
         // 5, Port
+        GetCellValue DtCell = new GetCellValue();
         private void DataGridServers_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int RIndex = e.RowIndex;
 
-            if (RIndex > 0)
-                ServerIPTextBox.Text = DataGridServers.Rows[RIndex].Cells[4].Value.ToString();
+            if (RIndex >= 0)
+            {
+                ServerIPTextBox.Text = DtCell.GetCell(DataGridServers, RIndex, 4);
+                RuleIP.Text = $"{DtCell.GetCell(DataGridServers, RIndex, 4)}:{DtCell.GetCell(DataGridServers, RIndex, 5)}";
+            }
         }
 
         private void DataGridServers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int RIndex = e.RowIndex;
             DataGrid_Players.Rows.Clear();
-            if (RIndex > 0)
+            if (RIndex >= 0)
             {
-                string ServerIP = DataGridServers.Rows[RIndex].Cells[4].Value.ToString();
-                string port = DataGridServers.Rows[RIndex].Cells[5].Value.ToString();
+                string ServerIP = DtCell.GetCell(DataGridServers, RIndex, 4);
+                string port = DtCell.GetCell(DataGridServers, RIndex, 5);
 
                 List<ServerPlayers.PlayerInfo> Players = new ServerPlayers().GetPlayers(new IPEndPoint(IPAddress.Parse(ServerIP), int.Parse(port)));
 
@@ -162,6 +184,46 @@ namespace Steam_Server_Browser
                             "n/a"
                         }, DataGrid_Players);
                     }
+                }).Start();
+            }
+        }
+
+        SteamClient.Rcon rcon = new SteamClient.Rcon();
+        private void RconConnect_Click(object sender, EventArgs e)
+        {
+            string IP = RconIP_TB.Text;
+            string Port = RconPort_TB.Text;
+            string Pass = RconPassword_TB.Text;
+            bool handshake = rcon.Connect(new IPEndPoint(IPAddress.Parse(IP), int.Parse(Port)), Pass);
+            if (handshake)
+            {
+                Rcon_GB.Enabled = true;
+            }
+        }
+
+        private void RconDisconnect_Click(object sender, EventArgs e)
+        {
+            rcon.Disconnect();
+            Rcon_GB.Enabled = false;
+        }
+
+        private void SendRconCommand_Click(object sender, EventArgs e)
+        {
+            SendCommand(RconCommandTB.Text);
+        }
+        public void SendCommand(string Command)
+        {
+            if (!string.IsNullOrEmpty(Command))
+            {
+                new Thread(() =>
+                {
+                    var rcnOut = rcon.SendCommand(Command);
+
+                    if (rcnOut.valid)
+                        invokers.TextboxAddText(RconLog_TB, rcnOut.Out == "" ? $"Sent: {Command}" : rcnOut.Out);
+                    else
+                        invokers.TextboxAddText(RconLog_TB, "Send Failed");
+
                 }).Start();
             }
         }

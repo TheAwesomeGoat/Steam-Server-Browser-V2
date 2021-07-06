@@ -122,7 +122,11 @@ namespace Steam_Server_Browser.SteamClient
 
 
                 CloseAndDispose();
-                return Message;
+                return new Data()
+                {
+                    data = second,
+                    ShouldReturn = true
+                };
             }
             catch
             {

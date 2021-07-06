@@ -63,6 +63,8 @@
     <Compile Include="SteamClient\Parser\ResponseParser.cs" />
     <Compile Include="SteamClient\Parser\ServerInfo.cs" />
     <Compile Include="SteamClient\Parser\ServerRules.cs" />
+    <Compile Include="SteamClient\Rcon.cs" />
+    <Compile Include="Utils\GetCellValue.cs" />
     <Compile Include="Utils\Invokers.cs" />
     <Compile Include="Utils\PickRegion.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -90,5 +92,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
