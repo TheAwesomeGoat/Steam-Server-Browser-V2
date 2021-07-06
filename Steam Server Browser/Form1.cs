@@ -46,12 +46,12 @@ namespace Steam_Server_Browser
             };
             ServerEndpoints = new GetServers().GetSteamServers(1, filter);
 
+            DataGridServers.Rows.Clear();
             SearchServersThread = new Thread(SearchServers);
             SearchServersThread.Start();
         }
         public void SearchServers()
         {
-            DataGridServers.Rows.Clear();
             int Index = 0;
             if (ServerEndpoints[0].Address.ToString() != "0.0.0.0")
             {
