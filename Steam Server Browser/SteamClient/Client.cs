@@ -142,10 +142,13 @@ namespace Steam_Server_Browser.SteamClient
             return bytes;
         }
            
-        private void CloseAndDispose()
+        public void CloseAndDispose()
         {
-            client.Close();
-            client.Dispose();
+            if (client != null)
+            {
+                client.Close();
+                client.Dispose();
+            }
         }
 
         private Data SendMessage(string msg, IPEndPoint endPoint)

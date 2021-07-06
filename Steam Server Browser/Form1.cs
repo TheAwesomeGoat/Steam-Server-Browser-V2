@@ -34,10 +34,12 @@ namespace Steam_Server_Browser
             string GameName = GameComboBox.SelectedItem.ToString();
             string Region = RegionComboBox.SelectedItem.ToString();
 
+            int appid = (int)Enum.Parse(typeof(PacketBuilder.SourceEngineGames), GameName);
+            
             IpFilter filter = new IpFilter()
             {
-                AppId = "4000",
-                Region = PacketBuilder.EnumRegions.All,
+                AppId = appid.ToString(),
+                Region = new Utils.PickRegion().Pick(Region),
                 HostName = HostnameTextBox.Text,
                 Map = MapTextBox.Text,
                 IsNotEmpty = NotEmpty_CB.Checked
@@ -49,30 +51,118 @@ namespace Steam_Server_Browser
         }
         public void SearchServers()
         {
+            DataGridServers.Rows.Clear();
             int Index = 0;
-            foreach (var item in ServerEndpoints)
+            if (ServerEndpoints[0].Address.ToString() != "0.0.0.0")
             {
-                try
+                foreach (var Endpoint in ServerEndpoints)
                 {
-                    ServerInfoClass info = new ServerInfo().GetServerName(item);
-                    if (info.ServerName != "n/a")
+                    try
+                    {
+                        ServerInfoClass info = new ServerInfo().GetServerName(Endpoint);
+                        if (info.ServerName != "n/a")
+                        {
+                            invokers.AddDataItem(new string[]
+                            {
+                                Index++.ToString("00000.#####"),
+                                info.ServerName,
+                                $"{info.Players}/{info.MaxPlayers}",
+                                info.Bots.ToString(),
+                                info.ServerIP,
+                                info.Port.ToString()
+                            }, DataGridServers);
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                invokers.AddDataItem(new string[]
+                {
+                    "n/a",
+                    "No Servers Found",
+                    "n/a",
+                    "n/a",
+                    "n/a",
+                    "n/a"
+                }, DataGridServers);
+            }
+        }
+
+        private void StopSearch_Click(object sender, EventArgs e)
+        {
+            if (SearchServersThread != null)
+                if (!SearchServersThread.IsAlive)
+                    SearchServersThread.Abort();
+            new SteamClient.Client().CloseAndDispose();
+        }
+
+        // 0, Index 
+        // 1, Server Name 
+        // 2, Players 
+        // 3, Bots
+        // 4, Server IP
+        // 5, Port
+        private void DataGridServers_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int RIndex = e.RowIndex;
+
+            if (RIndex > 0)
+                ServerIPTextBox.Text = DataGridServers.Rows[RIndex].Cells[4].Value.ToString();
+        }
+
+        private void DataGridServers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int RIndex = e.RowIndex;
+            DataGrid_Players.Rows.Clear();
+            if (RIndex > 0)
+            {
+                string ServerIP = DataGridServers.Rows[RIndex].Cells[4].Value.ToString();
+                string port = DataGridServers.Rows[RIndex].Cells[5].Value.ToString();
+
+                List<ServerPlayers.PlayerInfo> Players = new ServerPlayers().GetPlayers(new IPEndPoint(IPAddress.Parse(ServerIP), int.Parse(port)));
+
+                new Thread(() =>
+                {
+                    if (Players != null)
+                    {
+                        foreach (var player in Players)
+                        {
+                            int Hour = 0;
+                            int Minutes = 0;
+                            int Seconds = 0;
+
+                            try
+                            {
+                                var Time = TimeSpan.FromSeconds(float.IsNaN(player.Duration) ? 0.0f : player.Duration);
+                                Hour = Time.Hours;
+                                Minutes = Time.Minutes;
+                                Seconds = Time.Seconds;
+                            }
+                            catch { }
+
+                            invokers.AddDataItem(new string[]
+                            {
+                                player.Name,
+                                player.Score.ToString(),
+                                $"{(Hour == 0 ? $"" : $"{Hour}h " )}{((Minutes == 0 & Hour == 0) ? $"" : $"{Minutes}m " )}{((Seconds == 0 & Minutes == 0 & Hour == 0) ? $"" : $"{Seconds}s " )}"
+                            }, DataGrid_Players);
+                        }
+                    }
+                    else
                     {
                         invokers.AddDataItem(new string[]
                         {
-                            Index++.ToString("00000.#####"),
-                            info.ServerName,
-                            $"{info.Players}/{info.MaxPlayers}",
-                            info.Bots.ToString(),
-                            info.ServerIP,
-                            info.Port.ToString()
-
-                        }, DataGridServers);
+                            "No Players Found",
+                            "n/a",
+                            "n/a"
+                        }, DataGrid_Players);
                     }
-                }
-                catch
-                {
-
-                }
+                }).Start();
             }
         }
     }

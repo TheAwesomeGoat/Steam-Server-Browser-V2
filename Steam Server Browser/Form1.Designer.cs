@@ -31,6 +31,9 @@ namespace Steam_Server_Browser
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.ServerIPLabel = new System.Windows.Forms.Label();
+            this.ServerIPTextBox = new System.Windows.Forms.TextBox();
+            this.StopSearch = new System.Windows.Forms.Button();
             this.HostNameLabel = new System.Windows.Forms.Label();
             this.MapLabel = new System.Windows.Forms.Label();
             this.GameLabel = new System.Windows.Forms.Label();
@@ -73,6 +76,9 @@ namespace Steam_Server_Browser
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.ServerIPLabel);
+            this.tabPage1.Controls.Add(this.ServerIPTextBox);
+            this.tabPage1.Controls.Add(this.StopSearch);
             this.tabPage1.Controls.Add(this.HostNameLabel);
             this.tabPage1.Controls.Add(this.MapLabel);
             this.tabPage1.Controls.Add(this.GameLabel);
@@ -92,6 +98,33 @@ namespace Steam_Server_Browser
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // ServerIPLabel
+            // 
+            this.ServerIPLabel.AutoSize = true;
+            this.ServerIPLabel.Location = new System.Drawing.Point(863, 573);
+            this.ServerIPLabel.Name = "ServerIPLabel";
+            this.ServerIPLabel.Size = new System.Drawing.Size(51, 13);
+            this.ServerIPLabel.TabIndex = 9;
+            this.ServerIPLabel.Text = "Server IP";
+            // 
+            // ServerIPTextBox
+            // 
+            this.ServerIPTextBox.Location = new System.Drawing.Point(920, 570);
+            this.ServerIPTextBox.Name = "ServerIPTextBox";
+            this.ServerIPTextBox.ReadOnly = true;
+            this.ServerIPTextBox.Size = new System.Drawing.Size(413, 20);
+            this.ServerIPTextBox.TabIndex = 8;
+            // 
+            // StopSearch
+            // 
+            this.StopSearch.Location = new System.Drawing.Point(101, 6);
+            this.StopSearch.Name = "StopSearch";
+            this.StopSearch.Size = new System.Drawing.Size(75, 23);
+            this.StopSearch.TabIndex = 7;
+            this.StopSearch.Text = "Stop";
+            this.StopSearch.UseVisualStyleBackColor = true;
+            this.StopSearch.Click += new System.EventHandler(this.StopSearch_Click);
             // 
             // HostNameLabel
             // 
@@ -152,7 +185,7 @@ namespace Steam_Server_Browser
             this.DataGrid_Players.Name = "DataGrid_Players";
             this.DataGrid_Players.RowHeadersVisible = false;
             this.DataGrid_Players.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGrid_Players.Size = new System.Drawing.Size(470, 475);
+            this.DataGrid_Players.Size = new System.Drawing.Size(470, 476);
             this.DataGrid_Players.TabIndex = 4;
             // 
             // PlayerName
@@ -192,8 +225,10 @@ namespace Steam_Server_Browser
             this.DataGridServers.Name = "DataGridServers";
             this.DataGridServers.RowHeadersVisible = false;
             this.DataGridServers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGridServers.Size = new System.Drawing.Size(851, 474);
+            this.DataGridServers.Size = new System.Drawing.Size(851, 502);
             this.DataGridServers.TabIndex = 4;
+            this.DataGridServers.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridServers_CellClick);
+            this.DataGridServers.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridServers_CellDoubleClick);
             // 
             // ServerIndex
             // 
@@ -362,6 +397,9 @@ namespace Steam_Server_Browser
         private System.Windows.Forms.Label HostNameLabel;
         private System.Windows.Forms.Label MapLabel;
         private System.Windows.Forms.Label GameLabel;
+        private System.Windows.Forms.Button StopSearch;
+        private System.Windows.Forms.Label ServerIPLabel;
+        private System.Windows.Forms.TextBox ServerIPTextBox;
     }
 }
 

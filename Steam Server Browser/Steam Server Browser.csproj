@@ -64,6 +64,7 @@
     <Compile Include="SteamClient\Parser\ServerInfo.cs" />
     <Compile Include="SteamClient\Parser\ServerRules.cs" />
     <Compile Include="Utils\Invokers.cs" />
+    <Compile Include="Utils\PickRegion.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

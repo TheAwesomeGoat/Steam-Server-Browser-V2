@@ -48,7 +48,8 @@ namespace Steam_Server_Browser.SteamClient.Parser
                     Environment = parser.GetStringOfByte(),
                     Visibility = parser.GetByte(),
                     Version = parser.GetStringToTermination(),
-                    ServerIP = endPoint.Address.ToString()
+                    ServerIP = endPoint.Address.ToString(),
+                    Port = endPoint.Port
                 };
             }
             else
