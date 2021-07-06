@@ -25,17 +25,17 @@ namespace Steam_Server_Browser
             GameComboBox.Text = "Garrys_Mod";
         }
 
-        Thread SearchServersThread;
         List<IPEndPoint> ServerEndpoints;
+        Thread SearchServersThread;
 
         Invokers invokers = new Invokers();
-        private void GetServersButton_Click(object sender, EventArgs e)
+        public void GetServersButton_Click(object sender, EventArgs e)
         {
             string GameName = GameComboBox.SelectedItem.ToString();
             string Region = RegionComboBox.SelectedItem.ToString();
 
             int appid = (int)Enum.Parse(typeof(PacketBuilder.SourceEngineGames), GameName);
-            
+
             IpFilter filter = new IpFilter()
             {
                 AppId = appid.ToString(),
@@ -92,6 +92,7 @@ namespace Steam_Server_Browser
                 }, DataGridServers);
             }
         }
+
 
         private void GetRulesButton_Click(object sender, EventArgs e)
         {
@@ -227,5 +228,6 @@ namespace Steam_Server_Browser
                 }).Start();
             }
         }
+
     }
 }

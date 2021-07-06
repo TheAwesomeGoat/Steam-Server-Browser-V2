@@ -1,4 +1,5 @@
-﻿
+﻿using Steam_Server_Browser.Interaction;
+
 namespace Steam_Server_Browser
 {
     partial class Form1
@@ -62,19 +63,20 @@ namespace Steam_Server_Browser
             this.CommandValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GetRulesButton = new System.Windows.Forms.Button();
             this.RconView = new System.Windows.Forms.TabPage();
-            this.RconConnect = new System.Windows.Forms.Button();
-            this.RconDisconnect = new System.Windows.Forms.Button();
-            this.RconCommandTB = new System.Windows.Forms.TextBox();
-            this.RconPassword_TB = new System.Windows.Forms.TextBox();
-            this.RconIP_TB = new System.Windows.Forms.TextBox();
-            this.RconIPLabel = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.Rcon_GB = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.SendRconCommand = new System.Windows.Forms.Button();
             this.RconLog_TB = new System.Windows.Forms.TextBox();
+            this.SendRconCommand = new System.Windows.Forms.Button();
+            this.RconCommandTB = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.PortLabel = new System.Windows.Forms.Label();
+            this.RconIPLabel = new System.Windows.Forms.Label();
+            this.RconPassword_TB = new System.Windows.Forms.TextBox();
             this.RconPort_TB = new System.Windows.Forms.TextBox();
+            this.RconIP_TB = new System.Windows.Forms.TextBox();
+            this.RconDisconnect = new System.Windows.Forms.Button();
+            this.RconConnect = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGrid_Players)).BeginInit();
@@ -416,6 +418,7 @@ namespace Steam_Server_Browser
             // 
             // RconView
             // 
+            this.RconView.Controls.Add(this.button1);
             this.RconView.Controls.Add(this.Rcon_GB);
             this.RconView.Controls.Add(this.label1);
             this.RconView.Controls.Add(this.PortLabel);
@@ -433,65 +436,6 @@ namespace Steam_Server_Browser
             this.RconView.Text = "Rcon";
             this.RconView.UseVisualStyleBackColor = true;
             // 
-            // RconConnect
-            // 
-            this.RconConnect.Location = new System.Drawing.Point(6, 6);
-            this.RconConnect.Name = "RconConnect";
-            this.RconConnect.Size = new System.Drawing.Size(75, 23);
-            this.RconConnect.TabIndex = 0;
-            this.RconConnect.Text = "Connect";
-            this.RconConnect.UseVisualStyleBackColor = true;
-            this.RconConnect.Click += new System.EventHandler(this.RconConnect_Click);
-            // 
-            // RconDisconnect
-            // 
-            this.RconDisconnect.Location = new System.Drawing.Point(87, 6);
-            this.RconDisconnect.Name = "RconDisconnect";
-            this.RconDisconnect.Size = new System.Drawing.Size(75, 23);
-            this.RconDisconnect.TabIndex = 1;
-            this.RconDisconnect.Text = "Disconnect";
-            this.RconDisconnect.UseVisualStyleBackColor = true;
-            this.RconDisconnect.Click += new System.EventHandler(this.RconDisconnect_Click);
-            // 
-            // RconCommandTB
-            // 
-            this.RconCommandTB.Location = new System.Drawing.Point(66, 19);
-            this.RconCommandTB.Name = "RconCommandTB";
-            this.RconCommandTB.Size = new System.Drawing.Size(186, 20);
-            this.RconCommandTB.TabIndex = 2;
-            // 
-            // RconPassword_TB
-            // 
-            this.RconPassword_TB.Location = new System.Drawing.Point(58, 61);
-            this.RconPassword_TB.Name = "RconPassword_TB";
-            this.RconPassword_TB.Size = new System.Drawing.Size(186, 20);
-            this.RconPassword_TB.TabIndex = 2;
-            // 
-            // RconIP_TB
-            // 
-            this.RconIP_TB.Location = new System.Drawing.Point(58, 35);
-            this.RconIP_TB.Name = "RconIP_TB";
-            this.RconIP_TB.Size = new System.Drawing.Size(186, 20);
-            this.RconIP_TB.TabIndex = 2;
-            // 
-            // RconIPLabel
-            // 
-            this.RconIPLabel.AutoSize = true;
-            this.RconIPLabel.Location = new System.Drawing.Point(6, 38);
-            this.RconIPLabel.Name = "RconIPLabel";
-            this.RconIPLabel.Size = new System.Drawing.Size(46, 13);
-            this.RconIPLabel.TabIndex = 3;
-            this.RconIPLabel.Text = "Rcon IP";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 64);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(30, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Pass";
-            // 
             // Rcon_GB
             // 
             this.Rcon_GB.Controls.Add(this.RconLog_TB);
@@ -506,14 +450,15 @@ namespace Steam_Server_Browser
             this.Rcon_GB.TabStop = false;
             this.Rcon_GB.Text = "Rcon";
             // 
-            // label2
+            // RconLog_TB
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(54, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Command";
+            this.RconLog_TB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
+            this.RconLog_TB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(150)))), ((int)(((byte)(0)))));
+            this.RconLog_TB.Location = new System.Drawing.Point(6, 45);
+            this.RconLog_TB.Multiline = true;
+            this.RconLog_TB.Name = "RconLog_TB";
+            this.RconLog_TB.Size = new System.Drawing.Size(629, 452);
+            this.RconLog_TB.TabIndex = 5;
             // 
             // SendRconCommand
             // 
@@ -525,15 +470,30 @@ namespace Steam_Server_Browser
             this.SendRconCommand.UseVisualStyleBackColor = true;
             this.SendRconCommand.Click += new System.EventHandler(this.SendRconCommand_Click);
             // 
-            // RconLog_TB
+            // RconCommandTB
             // 
-            this.RconLog_TB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
-            this.RconLog_TB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(150)))), ((int)(((byte)(0)))));
-            this.RconLog_TB.Location = new System.Drawing.Point(6, 45);
-            this.RconLog_TB.Multiline = true;
-            this.RconLog_TB.Name = "RconLog_TB";
-            this.RconLog_TB.Size = new System.Drawing.Size(629, 452);
-            this.RconLog_TB.TabIndex = 5;
+            this.RconCommandTB.Location = new System.Drawing.Point(66, 19);
+            this.RconCommandTB.Name = "RconCommandTB";
+            this.RconCommandTB.Size = new System.Drawing.Size(186, 20);
+            this.RconCommandTB.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 22);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(54, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Command";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 64);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(30, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Pass";
             // 
             // PortLabel
             // 
@@ -544,12 +504,55 @@ namespace Steam_Server_Browser
             this.PortLabel.TabIndex = 3;
             this.PortLabel.Text = ":";
             // 
+            // RconIPLabel
+            // 
+            this.RconIPLabel.AutoSize = true;
+            this.RconIPLabel.Location = new System.Drawing.Point(6, 38);
+            this.RconIPLabel.Name = "RconIPLabel";
+            this.RconIPLabel.Size = new System.Drawing.Size(46, 13);
+            this.RconIPLabel.TabIndex = 3;
+            this.RconIPLabel.Text = "Rcon IP";
+            // 
+            // RconPassword_TB
+            // 
+            this.RconPassword_TB.Location = new System.Drawing.Point(58, 61);
+            this.RconPassword_TB.Name = "RconPassword_TB";
+            this.RconPassword_TB.Size = new System.Drawing.Size(186, 20);
+            this.RconPassword_TB.TabIndex = 2;
+            // 
             // RconPort_TB
             // 
             this.RconPort_TB.Location = new System.Drawing.Point(266, 35);
             this.RconPort_TB.Name = "RconPort_TB";
             this.RconPort_TB.Size = new System.Drawing.Size(98, 20);
             this.RconPort_TB.TabIndex = 2;
+            // 
+            // RconIP_TB
+            // 
+            this.RconIP_TB.Location = new System.Drawing.Point(58, 35);
+            this.RconIP_TB.Name = "RconIP_TB";
+            this.RconIP_TB.Size = new System.Drawing.Size(186, 20);
+            this.RconIP_TB.TabIndex = 2;
+            // 
+            // RconDisconnect
+            // 
+            this.RconDisconnect.Location = new System.Drawing.Point(87, 6);
+            this.RconDisconnect.Name = "RconDisconnect";
+            this.RconDisconnect.Size = new System.Drawing.Size(75, 23);
+            this.RconDisconnect.TabIndex = 1;
+            this.RconDisconnect.Text = "Disconnect";
+            this.RconDisconnect.UseVisualStyleBackColor = true;
+            this.RconDisconnect.Click += new System.EventHandler(this.RconDisconnect_Click);
+            // 
+            // RconConnect
+            // 
+            this.RconConnect.Location = new System.Drawing.Point(6, 6);
+            this.RconConnect.Name = "RconConnect";
+            this.RconConnect.Size = new System.Drawing.Size(75, 23);
+            this.RconConnect.TabIndex = 0;
+            this.RconConnect.Text = "Connect";
+            this.RconConnect.UseVisualStyleBackColor = true;
+            this.RconConnect.Click += new System.EventHandler(this.RconConnect_Click);
             // 
             // Form1
             // 
@@ -624,6 +627,7 @@ namespace Steam_Server_Browser
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label PortLabel;
         private System.Windows.Forms.TextBox RconPort_TB;
+        private System.Windows.Forms.Button button1;
     }
 }
 
